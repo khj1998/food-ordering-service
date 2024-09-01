@@ -1,7 +1,10 @@
 package com.commondomain.entity;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
+@Getter
 public abstract class BaseEntity<ID> {
     private ID id;
 
