@@ -8,6 +8,10 @@ import java.util.Objects;
 public abstract class BaseEntity<ID> {
     private ID id;
 
+    public void setId(ID id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
