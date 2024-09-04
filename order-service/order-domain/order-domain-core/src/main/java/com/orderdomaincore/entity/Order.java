@@ -16,8 +16,8 @@ public class Order extends AggregateRoot<OrderId> {
     private final CustomerId customerId;
     private final RestaurantId restaurantId;
     private final StreetAddress streetAddress;
-    private final Money price;
-    private final List<OrderItem> orderItemList;
+    private final Money price; // 주믄 금액 총액
+    private final List<OrderItem> orderItemList; // 주문 상품 리스트
 
     private TrackingId trackingId;
     private OrderStatus orderStatus;
@@ -41,7 +41,7 @@ public class Order extends AggregateRoot<OrderId> {
     public void validateOrder() {
         validateInitialOrder();
         validateTotalPrice();
-        validateItemPrice();
+        validateItemsPrice();
     }
 
     private void validateInitialOrder() {
@@ -62,7 +62,7 @@ public class Order extends AggregateRoot<OrderId> {
             return orderItem.getSubTotal();
         }).reduce(Money.ZERO,Money::add);
 
-        if (price.equals(orderItemPriceTotal)) {
+        if (!price.equals(orderItemPriceTotal)) {
             throw new OrderDomainException("Total price : "+price.getAmount()+" is not equal as Order items total : "+orderItemPriceTotal.getAmount());
         }
     }
@@ -70,7 +70,52 @@ public class Order extends AggregateRoot<OrderId> {
     private void validateItemPrice(OrderItem orderItem) {
         if (orderItem.isPriceValid()) {
             throw new OrderDomainException("Order item price: "+orderItem.getPrice().getAmount() +
-                    "is note valid for product "+orderItem.getProduct().getId().getValue());
+                    "is not valid for product "+orderItem.getProduct().getId().getValue());
+        }
+    }
+
+    public void pay() {
+        if (!orderStatus.equals(OrderStatus.PENDING)) {
+            throw new OrderDomainException("Order is not in correct state for paying");
+        }
+
+        orderStatus = OrderStatus.PAID;
+    }
+
+    public void approve() {
+        if (!orderStatus.equals(OrderStatus.PAID)) {
+            throw new OrderDomainException("Order is not in correct state for approving operation!");
+        }
+
+        orderStatus = OrderStatus.APPROVED;
+    }
+
+    public void initCancel(List<String> failureMessages) {
+        if (orderStatus != OrderStatus.PAID) {
+            throw new OrderDomainException("Order is not in correct state for initCancel operation!");
+        }
+
+        orderStatus = OrderStatus.CANCELLING;
+        updateFailureMessages(failureMessages);
+    }
+
+    public void cancel(List<String> failureMessages) {
+        if (orderStatus != OrderStatus.CANCELLING) {
+            throw new OrderDomainException("Order is not in correct state for canceling operation!");
+        }
+
+        orderStatus = OrderStatus.CANCELED;
+        updateFailureMessages(failureMessages);
+    }
+
+    private void updateFailureMessages(List<String> failureMessages) {
+        if (this.failureMessages != null && failureMessages != null) {
+            this.failureMessages.addAll(failureMessages.stream().
+                    filter(message -> !message.isEmpty()).toList());
+        }
+
+        if (this.failureMessages == null) {
+            this.failureMessages = failureMessages;
         }
     }
 
