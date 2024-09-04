@@ -2,9 +2,11 @@ package com.orderdomaincore.entity;
 
 import com.commondomain.entity.AggregateRoot;
 import com.commondomain.vo.RestaurantId;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class Restaurant extends AggregateRoot<RestaurantId> {
     private boolean active;
     private final List<Product> productList;
@@ -15,6 +17,9 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
         productList = builder.productList;
     }
 
+    public boolean isActive() {
+        return this.active;
+    }
 
     public static final class Builder {
         private RestaurantId id;
