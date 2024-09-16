@@ -3,12 +3,13 @@ package com.commondomain.entity;
 import lombok.Getter;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 public abstract class BaseEntity<ID> {
     private ID id;
 
-    public void setId(ID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

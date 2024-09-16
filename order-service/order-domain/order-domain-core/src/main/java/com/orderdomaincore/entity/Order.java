@@ -6,6 +6,7 @@ import com.orderdomaincore.exception.OrderDomainException;
 import com.orderdomaincore.vo.OrderItemId;
 import com.orderdomaincore.vo.StreetAddress;
 import com.orderdomaincore.vo.TrackingId;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @Getter
 public class Order extends AggregateRoot<OrderId> {
-    private final CustomerId customerId;
+    private final @NotNull UUID customerId;
     private final RestaurantId restaurantId;
     private final StreetAddress streetAddress;
     private final Money price; // 주믄 금액 총액
@@ -24,7 +25,7 @@ public class Order extends AggregateRoot<OrderId> {
     private List<String> failureMessages;
 
     public void initializeOrder() {
-        setId(new OrderId(UUID.randomUUID()));
+        setId(new OrderId(UUID.randomUUID()).getValue());
         trackingId = new TrackingId(UUID.randomUUID());
         orderStatus = OrderStatus.PENDING;
         initializeOrderItems();
@@ -120,7 +121,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private Order(Builder builder) {
-        super.setId(builder.orderId);
+        super.setId(builder.orderId.getValue());
         customerId = builder.customerId;
         restaurantId = builder.restaurantId;
         streetAddress = builder.streetAddress;
@@ -133,7 +134,7 @@ public class Order extends AggregateRoot<OrderId> {
 
     public static final class Builder {
         private OrderId orderId;
-        private CustomerId customerId;
+        private @NotNull UUID customerId;
         private RestaurantId restaurantId;
         private StreetAddress streetAddress;
         private Money price;
@@ -154,7 +155,7 @@ public class Order extends AggregateRoot<OrderId> {
             return this;
         }
 
-        public Builder customerId(CustomerId val) {
+        public Builder customerId(@NotNull UUID val) {
             customerId = val;
             return this;
         }

@@ -40,6 +40,7 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
         implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation group: 'javax.transaction', name: 'javax.transaction-api', version: '1.2'
     }
 
     repositories {

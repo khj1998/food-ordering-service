@@ -5,6 +5,7 @@ import com.commondomain.vo.RestaurantId;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public class Restaurant extends AggregateRoot<RestaurantId> {
@@ -12,7 +13,7 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
     private final List<Product> productList;
 
     private Restaurant(Builder builder) {
-        super.setId(builder.id);
+        super.setId(builder.restaurantId);
         active = builder.active;
         productList = builder.productList;
     }
@@ -22,7 +23,7 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
     }
 
     public static final class Builder {
-        private RestaurantId id;
+        private UUID restaurantId;
         private boolean active;
         private List<Product> productList;
 
@@ -33,8 +34,8 @@ public class Restaurant extends AggregateRoot<RestaurantId> {
             return new Builder();
         }
 
-        public Builder id(RestaurantId val) {
-            id = val;
+        public Builder restaurantId(UUID val) {
+            restaurantId = val;
             return this;
         }
 

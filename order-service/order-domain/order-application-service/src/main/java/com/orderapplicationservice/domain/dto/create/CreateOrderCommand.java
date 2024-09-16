@@ -20,7 +20,7 @@ public class CreateOrderCommand {
     @NotNull
     private final BigDecimal price;
     @NotNull
-    private final List<OrderItem> orderItemList;
+    private final List<CreatedOrderItem> createdOrderItemList;
     @NotNull
     private final OrderAddress address;
 }
