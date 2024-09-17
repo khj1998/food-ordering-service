@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Getter
 public class Order extends AggregateRoot<OrderId> {
-    private final @NotNull UUID customerId;
+    private final UUID customerId;
     private final RestaurantId restaurantId;
     private final StreetAddress streetAddress;
     private final Money price; // 주믄 금액 총액
@@ -25,7 +25,7 @@ public class Order extends AggregateRoot<OrderId> {
     private List<String> failureMessages;
 
     public void initializeOrder() {
-        setId(new OrderId(UUID.randomUUID()).getValue());
+        setId(new OrderId(UUID.randomUUID()));
         trackingId = new TrackingId(UUID.randomUUID());
         orderStatus = OrderStatus.PENDING;
         initializeOrderItems();
@@ -121,7 +121,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private Order(Builder builder) {
-        super.setId(builder.orderId.getValue());
+        super.setId(builder.orderId);
         customerId = builder.customerId;
         restaurantId = builder.restaurantId;
         streetAddress = builder.streetAddress;

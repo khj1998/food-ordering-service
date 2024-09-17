@@ -9,7 +9,7 @@ import java.util.UUID;
 public abstract class BaseEntity<ID> {
     private ID id;
 
-    public void setId(UUID id) {
+    public void setId(ID id) {
         this.id = id;
     }
 

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class OrderDataMapper {
     public Restaurant createOrderCommandToRestaurant(CreateOrderCommand createOrderCommand) {
         return Restaurant.Builder.builder()
-                .restaurantId(createOrderCommand.getRestaurantId())
+                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .productList(createOrderCommand.getCreatedOrderItemList()
                         .stream().map(createdOrderItem -> new Product(new ProductId(createdOrderItem.getProductId())))
                         .collect(Collectors.toList()))

@@ -8,11 +8,13 @@ import com.orderdomaincore.event.OrderCreatedEvent;
 import com.orderdomaincore.event.OrderPaidEvent;
 import com.orderdomaincore.exception.OrderDomainException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
+@Service
 public class OrderDomainServiceImpl implements OrderDomainService {
 
     @Override
