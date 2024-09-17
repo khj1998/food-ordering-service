@@ -134,7 +134,7 @@ public class Order extends AggregateRoot<OrderId> {
 
     public static final class Builder {
         private OrderId orderId;
-        private @NotNull UUID customerId;
+        private UUID customerId;
         private RestaurantId restaurantId;
         private StreetAddress streetAddress;
         private Money price;

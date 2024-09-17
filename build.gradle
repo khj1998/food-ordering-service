@@ -34,7 +34,7 @@ subprojects {
 
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
         compileOnly 'org.projectlombok:lombok:1.18.24'
         annotationProcessor 'org.projectlombok:lombok:1.18.24'
@@ -43,6 +43,11 @@ subprojects {
         implementation group: 'javax.transaction', name: 'javax.transaction-api', version: '1.2'
 
         implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '3.3.3'
+
+        testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
     repositories {

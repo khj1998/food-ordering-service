@@ -52,6 +52,11 @@ public class OrderCreateHelper {
             throw new OrderDomainException("Could not find restaurant with restaurant id : " + createOrderCommand.getRestaurantId());
         }
 
+        if (!optionalRestaurant.get().isActive()) {
+            log.warn(createOrderCommand.getRestaurantId() + " is not currently activate!");
+            throw new OrderDomainException(createOrderCommand.getRestaurantId() + " is not currently activate!");
+        }
+
         return optionalRestaurant.get();
     }
 
