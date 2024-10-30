@@ -18,9 +18,15 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.3.3'
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation project(':order-service:order-domain:order-application-service')
+    implementation project(':order-service:order-domain:order-domain-core')
+    implementation project(':common:common-domain')
 }
 
 tasks.named('test') {
